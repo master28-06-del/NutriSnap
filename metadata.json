@@ -1,0 +1,6 @@
+{
+  "name": "NutriSnap - AI Calorie & Macro Tracker",
+  "description": "Smart calorie and macronutrient tracker powered by Gemini vision AI to analyze meal photos and track daily nutrition goals.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

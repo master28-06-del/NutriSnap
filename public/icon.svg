@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#10b981" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="none" stroke="#10b981" stroke-width="4" stroke-opacity="0.3" />
+
+  <!-- Center Glow Icon: Camera & Leaf/Macro spark -->
+  <g filter="url(#glow)">
+    <!-- Outer Aperture Ring -->
+    <circle cx="256" cy="256" r="140" fill="none" stroke="url(#emeraldGrad)" stroke-width="24" stroke-dasharray="30 14" stroke-linecap="round" />
+    
+    <!-- Camera Body Frame -->
+    <rect x="160" y="180" width="192" height="152" rx="28" fill="#1e293b" stroke="#34d399" stroke-width="12" />
+    <path d="M210 180 L225 155 L287 155 L302 180 Z" fill="#34d399" />
+    
+    <!-- Lens with Food / Calorie flame icon -->
+    <circle cx="256" cy="256" r="48" fill="url(#emeraldGrad)" />
+    <circle cx="256" cy="256" r="32" fill="#0f172a" />
+    
+    <!-- Flame / Leaf inside Lens -->
+    <path d="M256 238 C250 248, 244 256, 248 266 C251 273, 261 273, 264 266 C268 256, 262 248, 256 238 Z" fill="#fbbf24" />
+    
+    <!-- Camera Flash Dot -->
+    <circle cx="320" cy="205" r="8" fill="#fbbf24" />
+  </g>
+
+  <!-- Sparkling Crosshairs -->
+  <path d="M120 140 L160 140 M120 140 L120 180" stroke="#34d399" stroke-width="10" stroke-linecap="round" />
+  <path d="M392 140 L352 140 M392 140 L392 180" stroke="#34d399" stroke-width="10" stroke-linecap="round" />
+  <path d="M120 372 L160 372 M120 372 L120 332" stroke="#34d399" stroke-width="10" stroke-linecap="round" />
+  <path d="M392 372 L352 372 M392 372 L392 332" stroke="#34d399" stroke-width="10" stroke-linecap="round" />
+</svg>

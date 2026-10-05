@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidMeal(data, userId) {
+      return data.userId == userId &&
+        data.id is string && data.id.size() <= 128 &&
+        data.mealName is string && data.mealName.size() > 0 && data.mealName.size() <= 200 &&
+        data.calories is number && data.calories >= 0 && data.calories <= 20000 &&
+        data.protein is number && data.protein >= 0 && data.protein <= 1000 &&
+        data.carbs is number && data.carbs >= 0 && data.carbs <= 2000 &&
+        data.fat is number && data.fat >= 0 && data.fat <= 1000 &&
+        data.date is string && data.date.size() <= 32 &&
+        data.timestamp is number &&
+        data.category is string && data.category.size() <= 32;
+    }
+
+    function isValidGoals(data, userId) {
+      return data.userId == userId &&
+        data.calories is number && data.calories >= 500 && data.calories <= 20000 &&
+        data.protein is number && data.protein >= 0 && data.protein <= 1000 &&
+        data.carbs is number && data.carbs >= 0 && data.carbs <= 2000 &&
+        data.fat is number && data.fat >= 0 && data.fat <= 1000;
+    }
+
+    // User Profile Document
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create, update: if isOwner(userId) && isValidId(userId) &&
+        request.resource.data.uid == userId;
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      // User Meals Subcollection
+      match /meals/{mealId} {
+        allow get: if isOwner(userId) && isValidId(mealId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(mealId) &&
+          isValidMeal(request.resource.data, userId);
+        allow update: if isOwner(userId) && isValidId(mealId) &&
+          isValidMeal(request.resource.data, userId) &&
+          request.resource.data.userId == resource.data.userId;
+        allow delete: if isOwner(userId) && isValidId(mealId);
+      }
+
+      // User Nutrition Goals
+      match /settings/goals {
+        allow get: if isOwner(userId);
+        allow create, update: if isOwner(userId) &&
+          isValidGoals(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

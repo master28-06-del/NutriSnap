@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account document for synchronization",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid"]
+    },
+    "Meal": {
+      "title": "Meal",
+      "description": "Logged nutrition entry containing recognized culinary details and macronutrients",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "mealName": { "type": "string" },
+        "calories": { "type": "number" },
+        "protein": { "type": "number" },
+        "carbs": { "type": "number" },
+        "fat": { "type": "number" },
+        "date": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "description": { "type": "string" },
+        "cuisine": { "type": "string" }
+      },
+      "required": ["id", "userId", "mealName", "calories", "protein", "carbs", "fat", "date", "timestamp", "category"]
+    },
+    "DailyGoals": {
+      "title": "DailyGoals",
+      "description": "User daily nutritional target goals",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "calories": { "type": "number" },
+        "protein": { "type": "number" },
+        "carbs": { "type": "number" },
+        "fat": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "calories", "protein", "carbs", "fat"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document"
+    },
+    "/users/{userId}/meals/{mealId}": {
+      "schema": "Meal",
+      "description": "User logged meals subcollection"
+    },
+    "/users/{userId}/settings/goals": {
+      "schema": "DailyGoals",
+      "description": "User daily nutritional targets document"
+    }
+  }
+}
